@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Patterns Explained</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .pattern-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pattern-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pattern-name {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin: 0;
+        }
+
+        .pattern-category {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--accent-color);
+        }
+
+        .pattern-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .code-section {
+            background-color: var(--box-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+        }
+
+        .code-section pre {
+            margin: 0;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-color);
+        }
+
+        .code-section code {
+            color: var(--accent-color);
+        }
+
+        .implementation-notes {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(0, 255, 0, 0.05);
+            border-radius: var(--border-radius);
+        }
+
+        .pattern-uml {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: var(--box-color);
+            border-radius: var(--border-radius);
+        }
+
+        .pattern-uml img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--surface-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .navigation h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: var(--transition);
+            display: block;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-color);
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: var(--border-radius);
+        }
+
+        .nav-category {
+            margin-top: 1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .back-to-demo {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--surface-color);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .back-to-demo:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-right: calc(250px + 2rem); /* Make space for fixed navigation */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Design Patterns Explained</h1>
+        <p class="intro">A comprehensive guide to design patterns with explanations, code examples, and implementation notes.</p>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <h3>Quick Navigation</h3>
+            
+            <!-- Creational Patterns -->
+            <div class="nav-category">Creational Patterns</div>
+            <a href="#singleton" class="nav-item">Singleton Pattern</a>
+            <a href="#factory" class="nav-item">Factory Pattern</a>
+            <a href="#abstract-factory" class="nav-item">Abstract Factory Pattern</a>
+            <a href="#builder" class="nav-item">Builder Pattern</a>
+            <a href="#prototype" class="nav-item">Prototype Pattern</a>
+            <a href="#object-pool" class="nav-item">Object Pool Pattern</a>
+
+            <!-- Structural Patterns -->
+            <div class="nav-category">Structural Patterns</div>
+            <a href="#adapter" class="nav-item">Adapter Pattern</a>
+            <a href="#bridge" class="nav-item">Bridge Pattern</a>
+            <a href="#composite" class="nav-item">Composite Pattern</a>
+            <a href="#decorator" class="nav-item">Decorator Pattern</a>
+            <a href="#facade" class="nav-item">Facade Pattern</a>
+            <a href="#flyweight" class="nav-item">Flyweight Pattern</a>
+            <a href="#proxy" class="nav-item">Proxy Pattern</a>
+
+            <!-- Behavioral Patterns -->
+            <div class="nav-category">Behavioral Patterns</div>
+            <a href="#observer" class="nav-item">Observer Pattern</a>
+            <a href="#strategy" class="nav-item">Strategy Pattern</a>
+            <a href="#command" class="nav-item">Command Pattern</a>
+            <a href="#state" class="nav-item">State Pattern</a>
+            <a href="#template-method" class="nav-item">Template Method Pattern</a>
+            <a href="#chain-of-responsibility" class="nav-item">Chain of Responsibility Pattern</a>
+            <a href="#mediator" class="nav-item">Mediator Pattern</a>
+            <a href="#memento" class="nav-item">Memento Pattern</a>
+        </div>
+
+        <!-- Link back to demo -->
+        <a href="index.html" class="back-to-demo">Back to Demo</a>
+
+        <!-- Creational Patterns -->
+        <section id="creational" class="pattern-section">
+            <h2>Creational Patterns</h2>
+            
+            <!-- Singleton Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Singleton Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Ensures a class has only one instance and provides a global point of access to it. Commonly used for managing shared resources like database connections or configuration settings.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>class DatabaseConnection {
+    constructor() {
+        if (DatabaseConnection.instance) {
+            return DatabaseConnection.instance;
+        }
+        this.connected = false;
+        DatabaseConnection.instance = this;
+    }
+
+    connect() {
+        if (!this.connected) {
+            this.connected = true;
+            return "Database connected!";
+        }
+        return "Already connected!";
+    }
+
+    disconnect() {
+        if (this.connected) {
+            this.connected = false;
+            return "Database disconnected!";
+        }
+        return "Already disconnected!";
+    }
+}</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Uses a static instance property to store the single instance</li>
+                        <li>Constructor checks if instance exists before creating a new one</li>
+                        <li>All instance methods operate on the same instance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Factory Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Factory Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Provides an interface for creating objects but allows subclasses to alter the type of objects that will be created. Useful when you need to create different types of objects based on conditions.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>class VehicleFactory {
+    createVehicle(type, color) {
+        switch(type.toLowerCase()) {
+            case 'car':
+                return new Car(color);
+            case 'motorcycle':
+                return new Motorcycle(color);
+            case 'truck':
+                return new Truck(color);
+            default:
+                throw new Error('Invalid vehicle type');
+        }
+    }
+}
+
+class Vehicle {
+    constructor(type, color) {
+        this.type = type;
+        this.color = color;
+    }
+}</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Factory class encapsulates object creation logic</li>
+                        <li>Allows for easy addition of new vehicle types</li>
+                        <li>Centralizes object creation code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Abstract Factory Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Abstract Factory Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Provides an interface for creating families of related or dependent objects without specifying their concrete classes. Useful when a system needs to be independent of how its products are created, composed, and represented.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Abstract Product interfaces
+class Button {
+    render() {}
+    onClick() {}
+}
+
+class Checkbox {
+    render() {}
+    toggle() {}
+}
+
+// Concrete Products for Light Theme
+class LightButton extends Button {
+    render() {
+        return `<button class="light-theme">Light Button</button>`;
+    }
+}
+
+class LightCheckbox extends Checkbox {
+    render() {
+        return `<input type="checkbox" class="light-theme">`;
+    }
+}
+
+// Concrete Products for Dark Theme
+class DarkButton extends Button {
+    render() {
+        return `<button class="dark-theme">Dark Button</button>`;
+    }
+}
+
+class DarkCheckbox extends Checkbox {
+    render() {
+        return `<input type="checkbox" class="dark-theme">`;
+    }
+}
+
+// Abstract Factory interface
+class UIFactory {
+    createButton() {}
+    createCheckbox() {}
+}
+
+// Concrete Factories
+class LightThemeFactory extends UIFactory {
+    createButton() {
+        return new LightButton();
+    }
+    createCheckbox() {
+        return new LightCheckbox();
+    }
+}
+
+class DarkThemeFactory extends UIFactory {
+    createButton() {
+        return new DarkButton();
+    }
+    createCheckbox() {
+        return new DarkCheckbox();
+    }
+}</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Defines abstract interfaces for products (Button, Checkbox)</li>
+                        <li>Creates concrete implementations for each theme</li>
+                        <li>Factory interface declares creation methods for each product type</li>
+                        <li>Concrete factories implement creation methods for specific themes</li>
+                        <li>Ensures consistent theme across all UI components</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Builder Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Builder Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Separates the construction of a complex object from its representation, allowing the same construction process to create different representations. Perfect for creating objects with many optional parameters or complex initialization.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>class Computer {
+    constructor() {
+        this.cpu = '';
+        this.ram = '';
+        this.storage = '';
+        this.gpu = '';
+    }
+
+    getSpecs() {
+        return `
+            CPU: ${this.cpu}
+            RAM: ${this.ram}
+            Storage: ${this.storage}
+            GPU: ${this.gpu}
+        `;
+    }
+}
+
+class ComputerBuilder {
+    constructor() {
+        this.computer = new Computer();
+    }
+
+    setCPU(cpu) {
+        this.computer.cpu = cpu;
+        return this;
+    }
+
+    setRAM(ram) {
+        this.computer.ram = ram;
+        return this;
+    }
+
+    setStorage(storage) {
+        this.computer.storage = storage;
+        return this;
+    }
+
+    setGPU(gpu) {
+        this.computer.gpu = gpu;
+        return this;
+    }
+
+    build() {
+        return this.computer;
+    }
+}
+
+// Usage example
+const builder = new ComputerBuilder();
+const computer = builder
+    .setCPU('Intel i7')
+    .setRAM('32GB')
+    .setStorage('1TB SSD')
+    .setGPU('RTX 3080')
+    .build();</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Builder class provides methods for setting each component</li>
+                        <li>Method chaining allows for fluent interface</li>
+                        <li>Final object is created only when build() is called</li>
+                        <li>Makes complex object construction more readable and maintainable</li>
+                        <li>Allows for different representations using the same construction process</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prototype Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Prototype Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Creates new objects by cloning an existing object, known as the prototype. This pattern is particularly useful when the cost of creating an object is more expensive than copying an existing one.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Base prototype
+class Shape {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.color = "black";
+    }
+
+    clone() {
+        const clone = new this.constructor();
+        clone.x = this.x;
+        clone.y = this.y;
+        clone.color = this.color;
+        return clone;
+    }
+
+    getInfo() {
+        return `${this.constructor.name} at (${this.x}, ${this.y}) in ${this.color}`;
+    }
+}
+
+// Concrete prototypes
+class Rectangle extends Shape {
+    constructor() {
+        super();
+        this.width = 100;
+        this.height = 50;
+    }
+
+    clone() {
+        const clone = super.clone();
+        clone.width = this.width;
+        clone.height = this.height;
+        return clone;
+    }
+}
+
+class Circle extends Shape {
+    constructor() {
+        super();
+        this.radius = 30;
+    }
+
+    clone() {
+        const clone = super.clone();
+        clone.radius = this.radius;
+        return clone;
+    }
+}
+
+// Usage example
+const originalCircle = new Circle();
+originalCircle.x = 10;
+originalCircle.y = 20;
+originalCircle.color = "red";
+
+const clonedCircle = originalCircle.clone();</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Base prototype provides the clone() method interface</li>
+                        <li>Each concrete prototype implements its own cloning logic</li>
+                        <li>Cloning preserves all properties of the original object</li>
+                        <li>Useful for creating objects with similar configurations</li>
+                        <li>More efficient than creating and configuring new objects from scratch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Object Pool Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Object Pool Pattern</h3>
+                    <span class="pattern-category">Creational</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Improves performance by reusing objects from a fixed pool instead of creating and destroying them on demand. Particularly useful for expensive objects like database connections, thread pools, or game objects.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>class Particle {
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.speed = 0;
+        this.angle = 0;
+        this.active = false;
+    }
+
+    init(x, y, speed, angle) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.angle = angle;
+        this.active = true;
+    }
+
+    update() {
+        if (!this.active) return;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+    }
+}
+
+class ParticlePool {
+    constructor(size) {
+        this.size = size;
+        this.pool = [];
+        this.activeCount = 0;
+
+        // Initialize pool with particles
+        for (let i = 0; i < size; i++) {
+            this.pool.push(new Particle());
+        }
+    }
+
+    acquire(x, y, speed, angle) {
+        for (let particle of this.pool) {
+            if (!particle.active) {
+                particle.init(x, y, speed, angle);
+                this.activeCount++;
+                return particle;
+            }
+        }
+        return null; // Pool is exhausted
+    }
+
+    release(particle) {
+        particle.active = false;
+        this.activeCount--;
+    }
+
+    updateAll() {
+        this.pool.forEach(particle => particle.update());
+    }
+}
+
+// Usage example
+const pool = new ParticlePool(50);
+const particle = pool.acquire(100, 100, 5, Math.PI/4);
+if (particle) {
+    // Use particle
+    particle.update();
+    // When done
+    pool.release(particle);
+}</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Pool maintains a fixed number of reusable objects</li>
+                        <li>Objects are initialized once and reused multiple times</li>
+                        <li>Reduces garbage collection overhead</li>
+                        <li>Perfect for high-performance applications</li>
+                        <li>Includes active state tracking and object lifecycle management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Structural Patterns -->
+        <section id="structural" class="pattern-section">
+            <h2>Structural Patterns</h2>
+            
+            <!-- Adapter Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Adapter Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Allows incompatible interfaces to work together by wrapping an object in an adapter to make it compatible with another class. Useful when integrating new code with legacy systems or third-party libraries.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Legacy Temperature System (Celsius)
+class CelsiusTemperature {
+    constructor() {
+        this.temperature = 0;
+    }
+
+    setTemperature(celsius) {
+        this.temperature = celsius;
+    }
+
+    getTemperature() {
+        return `${this.temperature}°C`;
+    }
+}
+
+// Modern Temperature System (Fahrenheit)
+class FahrenheitTemperature {
+    setFahrenheit(fahrenheit) {
+        this.fahrenheit = fahrenheit;
+    }
+
+    getFahrenheit() {
+        return `${this.fahrenheit}°F`;
+    }
+}
+
+// Adapter
+class TemperatureAdapter {
+    constructor(celsiusSystem) {
+        this.celsiusSystem = celsiusSystem;
+    }
+
+    setFahrenheit(fahrenheit) {
+        const celsius = (fahrenheit - 32) * 5/9;
+        this.celsiusSystem.setTemperature(celsius);
+    }
+
+    getFahrenheit() {
+        const celsius = parseFloat(this.celsiusSystem.getTemperature());
+        const fahrenheit = (celsius * 9/5) + 32;
+        return `${fahrenheit.toFixed(1)}°F`;
+    }
+}</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Adapter wraps an existing class with a new interface</li>
+                        <li>Handles conversion between different interfaces</li>
+                        <li>Original classes remain unchanged</li>
+                        <li>Can adapt one or many classes</li>
+                        <li>Useful for system integration and compatibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bridge Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Bridge Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Separates an abstraction from its implementation so that both can vary independently. This pattern is useful when you need to extend a class in several orthogonal (independent) dimensions.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Implementation interface
+class DrawingAPI {
+    drawCircle(x, y, radius, color) {}
+    drawSquare(x, y, size, color) {}
+}
+
+// Concrete Implementation 1
+class CanvasAPI extends DrawingAPI {
+    drawCircle(x, y, radius, color) {
+        return `Drawing circle at (${x}, ${y}) with radius ${radius} in ${color} using Canvas`;
+    }
+
+    drawSquare(x, y, size, color) {
+        return `Drawing square at (${x}, ${y}) with size ${size} in ${color} using Canvas`;
+    }
+}
+
+// Concrete Implementation 2
+class SVGAPI extends DrawingAPI {
+    drawCircle(x, y, radius, color) {
+        return `Drawing circle at (${x}, ${y}) with radius ${radius} in ${color} using SVG`;
+    }
+
+    drawSquare(x, y, size, color) {
+        return `Drawing square at (${x}, ${y}) with size ${size} in ${color} using SVG`;
+    }
+}
+
+// Abstraction
+class Shape {
+    constructor(api) {
+        this.api = api;
+    }
+
+    draw() {}
+    animate() {}
+}
+
+// Refined Abstractions
+class CircleShape extends Shape {
+    constructor(api, x, y, radius, color) {
+        super(api);
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+    }
+
+    draw() {
+        return this.api.drawCircle(this.x, this.y, this.radius, this.color);
+    }
+
+    animate(time) {
+        this.radius = 20 + Math.sin(time / 500) * 10;
+        return this.draw();
+    }
+}
+
+// Usage example
+const canvasAPI = new CanvasAPI();
+const svgAPI = new SVGAPI();
+
+const canvasCircle = new CircleShape(canvasAPI, 100, 100, 50, "red");
+const svgCircle = new CircleShape(svgAPI, 100, 100, 50, "blue");</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Separates drawing API implementation from shape abstractions</li>
+                        <li>Allows for independent variation of APIs and shapes</li>
+                        <li>Makes it easy to add new shapes or rendering methods</li>
+                        <li>Supports runtime switching of implementations</li>
+                        <li>Promotes loose coupling between abstraction and implementation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Composite Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Composite Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Composes objects into tree structures to represent part-whole hierarchies. Lets clients treat individual objects and compositions uniformly. Ideal for implementing tree-like component structures.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Component interface
+class FileSystemComponent {
+    constructor(name) {
+        this.name = name;
+    }
+
+    getSize() {}
+    display(indent = 0) {}
+    add(component) {}
+    remove(component) {}
+}
+
+// Leaf
+class File extends FileSystemComponent {
+    constructor(name, size) {
+        super(name);
+        this.size = size;
+    }
+
+    getSize() {
+        return this.size;
+    }
+
+    display(indent = 0) {
+        return `${' '.repeat(indent)}📄 ${this.name} (${this.size} KB)`;
+    }
+}
+
+// Composite
+class Directory extends FileSystemComponent {
+    constructor(name) {
+        super(name);
+        this.children = [];
+    }
+
+    add(component) {
+        this.children.push(component);
+        return true;
+    }
+
+    remove(component) {
+        const index = this.children.indexOf(component);
+        if (index > -1) {
+            this.children.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
+    getSize() {
+        return this.children.reduce((sum, child) => sum + child.getSize(), 0);
+    }
+
+    display(indent = 0) {
+        let output = `${' '.repeat(indent)}📁 ${this.name} (${this.getSize()} KB)\n`;
+        this.children.forEach(child => {
+            output += child.display(indent + 2) + '\n';
+        });
+        return output.trim();
+    }
+}
+
+// Usage example
+const root = new Directory('root');
+const docs = new Directory('documents');
+const file1 = new File('report.pdf', 1024);
+const file2 = new File('image.jpg', 2048);
+
+root.add(docs);
+docs.add(file1);
+docs.add(file2);</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Components share a common interface</li>
+                        <li>Leaf nodes represent individual objects</li>
+                        <li>Composite nodes can contain other components</li>
+                        <li>Uniform treatment of individual and composite objects</li>
+                        <li>Recursive operations on the entire tree structure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Decorator Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Decorator Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Attaches additional responsibilities to objects dynamically. Provides a flexible alternative to subclassing for extending functionality. Perfect for adding optional behaviors to objects.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Base Coffee class
+class Coffee {
+    cost() {
+        return 3;
+    }
+
+    description() {
+        return "Basic Coffee";
+    }
+}
+
+// Decorator base class
+class CoffeeDecorator {
+    constructor(coffee) {
+        this.coffee = coffee;
+    }
+
+    cost() {
+        return this.coffee.cost();
+    }
+
+    description() {
+        return this.coffee.description();
+    }
+}
+
+// Concrete decorators
+class MilkDecorator extends CoffeeDecorator {
+    cost() {
+        return this.coffee.cost() + 0.5;
+    }
+
+    description() {
+        return `${this.coffee.description()} + Milk`;
+    }
+}
+
+class CaramelDecorator extends CoffeeDecorator {
+    cost() {
+        return this.coffee.cost() + 0.7;
+    }
+
+    description() {
+        return `${this.coffee.description()} + Caramel`;
+    }
+}
+
+// Usage example
+let coffee = new Coffee();
+coffee = new MilkDecorator(coffee);
+coffee = new CaramelDecorator(coffee);
+
+console.log(coffee.description()); // "Basic Coffee + Milk + Caramel"
+console.log(coffee.cost()); // 4.2</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Base component defines core functionality</li>
+                        <li>Decorators wrap components and add behavior</li>
+                        <li>Decorators match the interface of the base component</li>
+                        <li>Supports dynamic addition of responsibilities</li>
+                        <li>Allows for flexible combination of behaviors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Facade Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Facade Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Provides a unified interface to a set of interfaces in a subsystem. Defines a higher-level interface that makes the subsystem easier to use. Perfect for simplifying complex systems and providing a cleaner API.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Complex subsystems
+class CPU {
+    freeze() { return "CPU: Freezing processor"; }
+    jump(position) { return `CPU: Jumping to position ${position}`; }
+    execute() { return "CPU: Executing commands"; }
+}
+
+class Memory {
+    load(position, data) {
+        return `Memory: Loading data "${data}" at position ${position}`;
+    }
+}
+
+class HardDrive {
+    read(position, size) {
+        return `HardDrive: Reading ${size} bytes from position ${position}`;
+    }
+}
+
+// Facade
+class ComputerFacade {
+    constructor() {
+        this.cpu = new CPU();
+        this.memory = new Memory();
+        this.hardDrive = new HardDrive();
+    }
+
+    start() {
+        const bootSteps = [];
+        bootSteps.push(this.cpu.freeze());
+        bootSteps.push(this.hardDrive.read(0, 1024));
+        bootSteps.push(this.memory.load(0, "boot_data"));
+        bootSteps.push(this.cpu.jump(0));
+        bootSteps.push(this.cpu.execute());
+        return bootSteps;
+    }
+}
+
+// Usage example
+const computer = new ComputerFacade();
+const bootSequence = computer.start();
+// Simplified interface hides complex subsystem interactions</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Facade encapsulates complex subsystem interactions</li>
+                        <li>Provides simple interface for common use cases</li>
+                        <li>Reduces coupling between client and subsystem</li>
+                        <li>Makes subsystem easier to use and understand</li>
+                        <li>Original subsystem remains available for advanced users</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flyweight Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Flyweight Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Minimizes memory usage by sharing as much data as possible with similar objects. Used when you need to create a large number of similar objects efficiently. Perfect for managing shared state across many instances.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Flyweight class - intrinsic state
+class TextStyle {
+    constructor(fontFamily, fontSize, fontWeight, color) {
+        this.fontFamily = fontFamily;
+        this.fontSize = fontSize;
+        this.fontWeight = fontWeight;
+        this.color = color;
+    }
+
+    render(text, x, y) {
+        return `
+            <div style="
+                font-family: ${this.fontFamily};
+                font-size: ${this.fontSize}px;
+                font-weight: ${this.fontWeight};
+                color: ${this.color};
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+            ">${text}</div>
+        `;
+    }
+}
+
+// Flyweight Factory
+class TextStyleFactory {
+    constructor() {
+        this.styles = new Map();
+    }
+
+    getStyle(fontFamily, fontSize, fontWeight, color) {
+        const key = `${fontFamily}-${fontSize}-${fontWeight}-${color}`;
+        if (!this.styles.has(key)) {
+            this.styles.set(
+                key,
+                new TextStyle(fontFamily, fontSize, fontWeight, color)
+            );
+        }
+        return this.styles.get(key);
+    }
+
+    getStylesCount() {
+        return this.styles.size;
+    }
+}
+
+// Context class - extrinsic state
+class TextEditor {
+    constructor(factory) {
+        this.factory = factory;
+        this.texts = [];
+    }
+
+    addText(text, x, y, fontFamily, fontSize, fontWeight, color) {
+        const style = this.factory.getStyle(fontFamily, fontSize, fontWeight, color);
+        this.texts.push({ text, x, y, style });
+    }
+
+    render() {
+        return this.texts.map(({ text, x, y, style }) => 
+            style.render(text, x, y)
+        ).join('');
+    }
+}
+
+// Usage example
+const factory = new TextStyleFactory();
+const editor = new TextEditor(factory);
+
+editor.addText("Hello", 10, 10, "Arial", 12, "normal", "black");
+editor.addText("World", 100, 10, "Arial", 12, "normal", "black"); // Reuses style
+editor.addText("!", 200, 10, "Arial", 12, "bold", "red"); // New style
+
+console.log(`Unique styles created: ${factory.getStylesCount()}`); // Only 2 styles</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Separates intrinsic (shared) and extrinsic (unique) state</li>
+                        <li>Factory manages shared flyweight objects</li>
+                        <li>Reduces memory usage through object sharing</li>
+                        <li>Perfect for scenarios with many similar objects</li>
+                        <li>Balances memory savings with computational cost</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Proxy Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Proxy Pattern</h3>
+                    <span class="pattern-category">Structural</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Provides a surrogate or placeholder for another object to control access to it. Can be used for lazy loading, access control, logging, or any other situation where you need to add a layer between the client and the actual object.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Subject Interface
+class ImageInterface {
+    display() {}
+    getInfo() {}
+}
+
+// Real Subject
+class RealImage extends ImageInterface {
+    constructor(filename, width, height) {
+        super();
+        this.filename = filename;
+        this.width = width;
+        this.height = height;
+        this.loaded = false;
+    }
+
+    loadImage() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.loaded = true;
+                resolve();
+            }, 1500);
+        });
+    }
+
+    display() {
+        if (!this.loaded) {
+            return "Loading...";
+        }
+        return `Displaying ${this.filename}`;
+    }
+
+    getInfo() {
+        return `${this.filename} (${this.width}x${this.height})`;
+    }
+}
+
+// Proxy
+class ImageProxy extends ImageInterface {
+    constructor(filename, width, height) {
+        super();
+        this.filename = filename;
+        this.width = width;
+        this.height = height;
+        this.realImage = null;
+    }
+
+    async loadRealImage() {
+        if (!this.realImage) {
+            this.realImage = new RealImage(
+                this.filename, 
+                this.width, 
+                this.height
+            );
+            await this.realImage.loadImage();
+        }
+    }
+
+    display() {
+        if (!this.realImage) {
+            return "Click to load image";
+        }
+        return this.realImage.display();
+    }
+
+    getInfo() {
+        if (!this.realImage) {
+            return `${this.filename} (not loaded)`;
+        }
+        return this.realImage.getInfo();
+    }
+}
+
+// Usage example
+const proxy = new ImageProxy("large-image.jpg", 1920, 1080);
+console.log(proxy.display()); // "Click to load image"
+await proxy.loadRealImage();
+console.log(proxy.display()); // "Displaying large-image.jpg"</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Proxy implements the same interface as the real subject</li>
+                        <li>Controls access to the real object</li>
+                        <li>Can add functionality without changing the real subject</li>
+                        <li>Perfect for lazy loading of heavy resources</li>
+                        <li>Can implement caching, logging, access control, etc.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Behavioral Patterns -->
+        <section id="behavioral" class="pattern-section">
+            <h2>Behavioral Patterns</h2>
+            
+            <!-- Observer Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Observer Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically. Perfect for implementing distributed event handling systems.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>class NewsAgency {
+    constructor() {
+        this.subscribers = [];
+        this.news = '';
+    }
+
+    subscribe(subscriber) {
+        this.subscribers.push(subscriber);
+    }
+
+    unsubscribe(subscriber) {
+        this.subscribers = this.subscribers.filter(s => s !== subscriber);
+    }
+
+    publishNews(news) {
+        this.news = news;
+        this.notifySubscribers();
+    }
+
+    notifySubscribers() {
+        this.subscribers.forEach(subscriber => 
+            subscriber.update(this.news)
+        );
+    }
+}
+
+class NewsSubscriber {
+    constructor(name) {
+        this.name = name;
+    }
+
+    update(news) {
+        return `${this.name} received news: ${news}`;
+    }
+}
+
+// Usage example
+const newsAgency = new NewsAgency();
+const subscriber1 = new NewsSubscriber("John");
+const subscriber2 = new NewsSubscriber("Jane");
+
+newsAgency.subscribe(subscriber1);
+newsAgency.subscribe(subscriber2);
+
+newsAgency.publishNews("Breaking: New JavaScript framework released!");
+// Both subscribers get notified automatically</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Subject maintains a list of observers</li>
+                        <li>Observers can subscribe and unsubscribe dynamically</li>
+                        <li>All observers are notified automatically of state changes</li>
+                        <li>Promotes loose coupling between subject and observers</li>
+                        <li>Perfect for event-driven programming</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Strategy Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Strategy Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it. Perfect for implementing different variations of an algorithm.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Payment strategies
+class PaymentStrategy {
+    pay(amount) {}
+}
+
+class CreditCardPayment extends PaymentStrategy {
+    constructor(cardNumber) {
+        super();
+        this.cardNumber = cardNumber;
+    }
+
+    pay(amount) {
+        return `Paid $${amount} using Credit Card (${this.cardNumber})`;
+    }
+}
+
+class PayPalPayment extends PaymentStrategy {
+    constructor(email) {
+        super();
+        this.email = email;
+    }
+
+    pay(amount) {
+        return `Paid $${amount} using PayPal (${this.email})`;
+    }
+}
+
+class CryptoPayment extends PaymentStrategy {
+    constructor(wallet) {
+        super();
+        this.wallet = wallet;
+    }
+
+    pay(amount) {
+        return `Paid $${amount} using Cryptocurrency (${this.wallet})`;
+    }
+}
+
+// Context using payment strategy
+class ShoppingCart {
+    constructor() {
+        this.paymentStrategy = null;
+    }
+
+    setPaymentStrategy(strategy) {
+        this.paymentStrategy = strategy;
+    }
+
+    checkout(amount) {
+        if (this.paymentStrategy) {
+            return this.paymentStrategy.pay(amount);
+        }
+        return "No payment method selected!";
+    }
+}
+
+// Usage example
+const cart = new ShoppingCart();
+
+// Pay with credit card
+cart.setPaymentStrategy(new CreditCardPayment("1234-5678-9012-3456"));
+console.log(cart.checkout(100));
+
+// Pay with PayPal
+cart.setPaymentStrategy(new PayPalPayment("john@example.com"));
+console.log(cart.checkout(50));</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Each strategy encapsulates a specific algorithm</li>
+                        <li>Strategies can be switched at runtime</li>
+                        <li>Context delegates the algorithm to the strategy</li>
+                        <li>Makes algorithms interchangeable</li>
+                        <li>Easy to add new strategies without changing existing code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Command Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Command Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations. Perfect for implementing undo/redo functionality and action queuing.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Receiver
+class Light {
+    constructor(location) {
+        this.location = location;
+        this.isOn = false;
+    }
+
+    turnOn() {
+        this.isOn = true;
+        return `${this.location} light turned on`;
+    }
+
+    turnOff() {
+        this.isOn = false;
+        return `${this.location} light turned off`;
+    }
+}
+
+// Command interface
+class Command {
+    execute() {}
+    undo() {}
+}
+
+// Concrete Commands
+class TurnOnCommand extends Command {
+    constructor(light) {
+        super();
+        this.light = light;
+    }
+
+    execute() {
+        return this.light.turnOn();
+    }
+
+    undo() {
+        return this.light.turnOff();
+    }
+}
+
+class TurnOffCommand extends Command {
+    constructor(light) {
+        super();
+        this.light = light;
+    }
+
+    execute() {
+        return this.light.turnOff();
+    }
+
+    undo() {
+        return this.light.turnOn();
+    }
+}
+
+// Invoker
+class RemoteControl {
+    constructor() {
+        this.commands = [];
+        this.currentIndex = -1;
+    }
+
+    executeCommand(command) {
+        const result = command.execute();
+        this.commands.push(command);
+        this.currentIndex++;
+        return result;
+    }
+
+    undo() {
+        if (this.currentIndex >= 0) {
+            const result = this.commands[this.currentIndex].undo();
+            this.currentIndex--;
+            return result;
+        }
+        return "No commands to undo";
+    }
+
+    redo() {
+        if (this.currentIndex < this.commands.length - 1) {
+            this.currentIndex++;
+            return this.commands[this.currentIndex].execute();
+        }
+        return "No commands to redo";
+    }
+}
+
+// Usage example
+const livingRoomLight = new Light("Living Room");
+const remote = new RemoteControl();
+
+const turnOn = new TurnOnCommand(livingRoomLight);
+const turnOff = new TurnOffCommand(livingRoomLight);
+
+console.log(remote.executeCommand(turnOn));  // "Living Room light turned on"
+console.log(remote.executeCommand(turnOff)); // "Living Room light turned off"
+console.log(remote.undo());                  // "Living Room light turned on"
+console.log(remote.redo());                  // "Living Room light turned off"</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Separates the object that invokes the operation from the object that performs it</li>
+                        <li>Commands are first-class objects that can be manipulated and extended</li>
+                        <li>Supports undo/redo through command history</li>
+                        <li>Enables queueing of commands for later execution</li>
+                        <li>Perfect for implementing transaction-like functionality</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- State Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">State Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Allows an object to alter its behavior when its internal state changes. The object will appear to change its class. Perfect for implementing state machines and objects with state-dependent behavior.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// State interface
+class DocumentState {
+    constructor(document) {
+        this.document = document;
+    }
+    edit() {}
+    review() {}
+    approve() {}
+    reject() {}
+    getStatus() {}
+}
+
+// Concrete States
+class DraftState extends DocumentState {
+    edit() {
+        return "Document edited in draft state";
+    }
+
+    review() {
+        this.document.setState(new ReviewState(this.document));
+        return "Document submitted for review";
+    }
+
+    approve() {
+        return "Cannot approve document in draft state";
+    }
+
+    reject() {
+        return "Cannot reject document in draft state";
+    }
+
+    getStatus() {
+        return "Draft";
+    }
+}
+
+class ReviewState extends DocumentState {
+    edit() {
+        return "Cannot edit document in review state";
+    }
+
+    review() {
+        return "Document is already under review";
+    }
+
+    approve() {
+        this.document.setState(new ApprovedState(this.document));
+        return "Document approved";
+    }
+
+    reject() {
+        this.document.setState(new DraftState(this.document));
+        return "Document rejected, returned to draft";
+    }
+
+    getStatus() {
+        return "Under Review";
+    }
+}
+
+class ApprovedState extends DocumentState {
+    edit() {
+        this.document.setState(new DraftState(this.document));
+        return "Document changed to draft for editing";
+    }
+
+    review() {
+        return "Cannot review an approved document";
+    }
+
+    approve() {
+        return "Document is already approved";
+    }
+
+    reject() {
+        this.document.setState(new DraftState(this.document));
+        return "Document rejected, returned to draft";
+    }
+
+    getStatus() {
+        return "Approved";
+    }
+}
+
+// Context
+class Document {
+    constructor(title) {
+        this.title = title;
+        this.content = "";
+        this.setState(new DraftState(this));
+    }
+
+    setState(state) {
+        this.state = state;
+        return this.getStatus();
+    }
+
+    edit() { return this.state.edit(); }
+    review() { return this.state.review(); }
+    approve() { return this.state.approve(); }
+    reject() { return this.state.reject(); }
+    getStatus() { return this.state.getStatus(); }
+}
+
+// Usage example
+const doc = new Document("Project Proposal");
+console.log(doc.getStatus());  // "Draft"
+console.log(doc.review());     // "Document submitted for review"
+console.log(doc.approve());    // "Document approved"
+console.log(doc.edit());       // "Document changed to draft for editing"</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Each state is encapsulated in its own class</li>
+                        <li>State transitions are handled by the state classes</li>
+                        <li>Context delegates state-specific behavior to current state object</li>
+                        <li>Makes state transitions explicit</li>
+                        <li>Easy to add new states without changing existing code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Template Method Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Template Method Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure. Perfect for implementing frameworks and reusable components.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Abstract class with template method
+class DataMiner {
+    // Template method
+    mine(path) {
+        const data = this.extractData(path);
+        const cleanedData = this.cleanData(data);
+        const analysis = this.analyzeData(cleanedData);
+        return this.formatOutput(analysis);
+    }
+
+    // Abstract methods to be implemented by subclasses
+    extractData(path) { throw new Error("extractData must be implemented"); }
+    cleanData(data) { throw new Error("cleanData must be implemented"); }
+    analyzeData(data) { throw new Error("analyzeData must be implemented"); }
+    formatOutput(analysis) { throw new Error("formatOutput must be implemented"); }
+}
+
+// Concrete implementation for PDF files
+class PDFMiner extends DataMiner {
+    extractData(path) {
+        return `Raw PDF data from ${path}: Lorem ipsum dolor sit amet...`;
+    }
+
+    cleanData(data) {
+        return data.replace("Raw PDF data from ", "Cleaned: ");
+    }
+
+    analyzeData(data) {
+        const words = data.split(" ").length;
+        return {
+            wordCount: words,
+            type: "PDF Document",
+            summary: data.substring(0, 50) + "..."
+        };
+    }
+
+    formatOutput(analysis) {
+        return `
+            PDF Analysis:
+            Word Count: ${analysis.wordCount}
+            Type: ${analysis.type}
+            Summary: ${analysis.summary}
+        `;
+    }
+}
+
+// Concrete implementation for CSV files
+class CSVMiner extends DataMiner {
+    extractData(path) {
+        return `id,name,value\n1,item1,100\n2,item2,200\n3,item3,300`;
+    }
+
+    cleanData(data) {
+        const [headers, ...rows] = data.split("\n");
+        return rows.map(row => {
+            const values = row.split(",");
+            return {
+                id: values[0],
+                name: values[1],
+                value: parseInt(values[2])
+            };
+        });
+    }
+
+    analyzeData(data) {
+        const total = data.reduce((sum, row) => sum + row.value, 0);
+        return {
+            rowCount: data.length,
+            total: total,
+            average: total / data.length
+        };
+    }
+
+    formatOutput(analysis) {
+        return `
+            CSV Analysis:
+            Row Count: ${analysis.rowCount}
+            Total Value: ${analysis.total}
+            Average: ${analysis.average.toFixed(2)}
+        `;
+    }
+}
+
+// Usage example
+const pdfMiner = new PDFMiner();
+console.log(pdfMiner.mine("document.pdf"));
+
+const csvMiner = new CSVMiner();
+console.log(csvMiner.mine("data.csv"));</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Base class defines the algorithm structure</li>
+                        <li>Subclasses implement specific steps</li>
+                        <li>Template method controls the algorithm flow</li>
+                        <li>Promotes code reuse through inheritance</li>
+                        <li>Ensures consistent algorithm structure across implementations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chain of Responsibility Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Chain of Responsibility Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Avoids coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. Chains the receiving objects and passes the request along the chain until an object handles it. Perfect for building processing pipelines or handling hierarchical requests.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Handler interface
+class SupportHandler {
+    constructor() {
+        this.nextHandler = null;
+    }
+
+    setNext(handler) {
+        this.nextHandler = handler;
+        return handler;
+    }
+
+    handle(request) {
+        if (this.nextHandler) {
+            return this.nextHandler.handle(request);
+        }
+        return `End of chain. Request unhandled: ${request.type}`;
+    }
+}
+
+// Concrete handlers
+class TechnicalSupportHandler extends SupportHandler {
+    handle(request) {
+        if (request.type === 'technical') {
+            return `Technical Support: Resolved ${request.issue} (Priority: ${request.priority})`;
+        }
+        return super.handle(request);
+    }
+}
+
+class BillingSupportHandler extends SupportHandler {
+    handle(request) {
+        if (request.type === 'billing') {
+            return `Billing Support: Processed ${request.issue} (Amount: $${request.amount})`;
+        }
+        return super.handle(request);
+    }
+}
+
+class GeneralSupportHandler extends SupportHandler {
+    handle(request) {
+        if (request.type === 'general') {
+            return `General Support: Answered ${request.issue}`;
+        }
+        return super.handle(request);
+    }
+}
+
+class SecuritySupportHandler extends SupportHandler {
+    handle(request) {
+        if (request.type === 'security') {
+            return `Security Team: Investigated ${request.issue} (Severity: ${request.severity})`;
+        }
+        return super.handle(request);
+    }
+}
+
+// Usage example
+const technical = new TechnicalSupportHandler();
+const billing = new BillingSupportHandler();
+const general = new GeneralSupportHandler();
+const security = new SecuritySupportHandler();
+
+// Set up the chain
+technical
+    .setNext(billing)
+    .setNext(general)
+    .setNext(security);
+
+// Process different types of requests
+const requests = [
+    { type: 'technical', issue: 'Server down', priority: 'High' },
+    { type: 'billing', issue: 'Refund request', amount: 100 },
+    { type: 'security', issue: 'Suspicious login', severity: 'Critical' },
+    { type: 'general', issue: 'How to update profile' }
+];
+
+requests.forEach(request => {
+    console.log(technical.handle(request));
+});</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Each handler decides whether to process the request or pass it along</li>
+                        <li>Handlers are chained together in a specific order</li>
+                        <li>Requests flow through the chain until handled</li>
+                        <li>Easy to add new handlers without changing existing code</li>
+                        <li>Promotes loose coupling between sender and receiver</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mediator Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Mediator Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Defines an object that encapsulates how a set of objects interact. Promotes loose coupling by keeping objects from referring to each other explicitly, and lets you vary their interaction independently. Perfect for managing complex interactions between related objects.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Mediator interface
+class ChatMediator {
+    sendMessage(message, sender) {}
+    addUser(user) {}
+}
+
+// Concrete Mediator
+class ChatRoom extends ChatMediator {
+    constructor() {
+        super();
+        this.users = new Map();
+    }
+
+    addUser(user) {
+        this.users.set(user.name, user);
+    }
+
+    sendMessage(message, sender) {
+        // Broadcast message to all users except sender
+        for (let [name, user] of this.users) {
+            if (name !== sender.name) {
+                user.receiveMessage(message, sender.name);
+            }
+        }
+    }
+
+    sendPrivateMessage(message, sender, recipient) {
+        const user = this.users.get(recipient);
+        if (user) {
+            user.receivePrivateMessage(message, sender.name);
+        }
+    }
+
+    getUserList() {
+        return Array.from(this.users.keys());
+    }
+}
+
+// User class (Colleague)
+class User {
+    constructor(name, mediator) {
+        this.name = name;
+        this.mediator = mediator;
+        this.chatLog = [];
+    }
+
+    send(message) {
+        this.mediator.sendMessage(message, this);
+        this.logMessage("You", message, false);
+    }
+
+    sendPrivate(message, recipient) {
+        this.mediator.sendPrivateMessage(message, this, recipient);
+        this.logMessage("You", message, true, recipient);
+    }
+
+    receiveMessage(message, sender) {
+        this.logMessage(sender, message, false);
+    }
+
+    receivePrivateMessage(message, sender) {
+        this.logMessage(sender, message, true);
+    }
+
+    logMessage(sender, message, isPrivate, recipient = null) {
+        const timestamp = new Date().toLocaleTimeString();
+        const prefix = isPrivate ? "Private" : "Public";
+        const recipientText = recipient ? ` to ${recipient}` : "";
+        this.chatLog.push(
+            `[${timestamp}] ${prefix} - ${sender}${recipientText}: ${message}`
+        );
+    }
+
+    getChatLog() {
+        return this.chatLog;
+    }
+}
+
+// Usage example
+const chatRoom = new ChatRoom();
+
+const john = new User("John", chatRoom);
+const jane = new User("Jane", chatRoom);
+const bob = new User("Bob", chatRoom);
+
+chatRoom.addUser(john);
+chatRoom.addUser(jane);
+chatRoom.addUser(bob);
+
+john.send("Hello everyone!");
+jane.sendPrivate("Hi John!", "John");
+bob.send("Welcome to the chat!");</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Mediator centralizes complex interactions</li>
+                        <li>Components only know about the mediator</li>
+                        <li>Reduces dependencies between components</li>
+                        <li>Makes it easier to modify interaction patterns</li>
+                        <li>Perfect for complex communication flows</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Memento Pattern -->
+            <div class="pattern-section">
+                <div class="pattern-header">
+                    <h3 class="pattern-name">Memento Pattern</h3>
+                    <span class="pattern-category">Behavioral</span>
+                </div>
+                <div class="pattern-description">
+                    <p>Captures and externalizes an object's internal state so that the object can be restored to this state later, without violating encapsulation. Perfect for implementing undo mechanisms or maintaining history of state changes.</p>
+                </div>
+                <div class="code-section">
+                    <pre><code>// Originator
+class TextEditor {
+    constructor() {
+        this.content = '';
+        this.cursorPosition = 0;
+        this.selectedText = '';
+        this.fontSize = 16;
+        this.fontFamily = 'Arial';
+        this.isBold = false;
+    }
+
+    createMemento() {
+        return new TextEditorMemento(
+            this.content,
+            this.cursorPosition,
+            this.selectedText,
+            this.fontSize,
+            this.fontFamily,
+            this.isBold
+        );
+    }
+
+    restore(memento) {
+        const state = memento.getState();
+        this.content = state.content;
+        this.cursorPosition = state.cursorPosition;
+        this.selectedText = state.selectedText;
+        this.fontSize = state.fontSize;
+        this.fontFamily = state.fontFamily;
+        this.isBold = state.isBold;
+    }
+
+    getFormattedContent() {
+        return `<div style="
+            font-family: ${this.fontFamily};
+            font-size: ${this.fontSize}px;
+            font-weight: ${this.isBold ? 'bold' : 'normal'};
+        ">${this.content}</div>`;
+    }
+
+    updateContent(content) {
+        this.content = content;
+    }
+}
+
+// Memento
+class TextEditorMemento {
+    constructor(content, cursorPosition, selectedText, fontSize, fontFamily, isBold) {
+        this.state = {
+            content,
+            cursorPosition,
+            selectedText,
+            fontSize,
+            fontFamily,
+            isBold,
+            timestamp: new Date().toLocaleString()
+        };
+    }
+
+    getState() {
+        return this.state;
+    }
+
+    getInfo() {
+        return `${this.state.timestamp} - Length: ${this.state.content.length} chars`;
+    }
+}
+
+// Caretaker
+class History {
+    constructor() {
+        this.mementos = [];
+        this.currentIndex = -1;
+    }
+
+    push(memento) {
+        // Remove any future states if we're not at the end
+        if (this.currentIndex < this.mementos.length - 1) {
+            this.mementos = this.mementos.slice(0, this.currentIndex + 1);
+        }
+        this.mementos.push(memento);
+        this.currentIndex++;
+    }
+
+    undo() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            return this.mementos[this.currentIndex];
+        }
+        return null;
+    }
+
+    redo() {
+        if (this.currentIndex < this.mementos.length - 1) {
+            this.currentIndex++;
+            return this.mementos[this.currentIndex];
+        }
+        return null;
+    }
+}
+
+// Usage example
+const editor = new TextEditor();
+const history = new History();
+
+// Initial state
+editor.updateContent("Hello");
+history.push(editor.createMemento());
+
+// Make some changes
+editor.updateContent("Hello World");
+history.push(editor.createMemento());
+
+editor.updateContent("Hello World!");
+history.push(editor.createMemento());
+
+// Undo changes
+const previousState = history.undo();
+editor.restore(previousState);
+console.log(editor.content); // "Hello World"
+
+// Redo changes
+const nextState = history.redo();
+editor.restore(nextState);
+console.log(editor.content); // "Hello World!"</code></pre>
+                </div>
+                <div class="implementation-notes">
+                    <h4>Implementation Notes:</h4>
+                    <ul>
+                        <li>Originator creates mementos containing snapshots of its state</li>
+                        <li>Memento stores state privately and provides limited access</li>
+                        <li>Caretaker manages history of mementos</li>
+                        <li>Supports multiple levels of undo/redo</li>
+                        <li>Preserves encapsulation while allowing state capture</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Link back to demo -->
+    <a href="index.html" class="back-to-demo">Back to Demo</a>
+</div>
+
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Only prevent default for hash links (internal navigation)
+            if (link.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').slice(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // Highlight current section in navigation
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.pattern-section');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSection = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 60) {
+                currentSection = section.id;
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').slice(1) === currentSection) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html> 

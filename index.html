@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="description" content="An interactive playground for learning software design patterns with live demonstrations">
+    <title>Design Patterns Playground</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Design Patterns <span class="accent">Playground</span></h1>
+        <nav>
+            <ul>
+                <li><a href="#" data-category="creational" class="active">Creational Patterns</a></li>
+                <li><a href="#" data-category="structural">Structural Patterns</a></li>
+                <li><a href="#" data-category="behavioral">Behavioral Patterns</a></li>
+                <li><a href="pattern-explanations.html" class="explanations-link">Pattern Explanations</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="patterns-container">
+            <div class="pattern-list">
+                <!-- Creational Patterns -->
+                <div class="pattern-category" id="creational">
+                    <h2>Creational Patterns</h2>
+                    <ul>
+                        <li><a href="#" data-pattern="singleton">Singleton Pattern</a></li>
+                        <li><a href="#" data-pattern="factory">Factory Pattern</a></li>
+                        <li><a href="#" data-pattern="abstract-factory">Abstract Factory Pattern</a></li>
+                        <li><a href="#" data-pattern="builder">Builder Pattern</a></li>
+                        <li><a href="#" data-pattern="prototype">Prototype Pattern</a></li>
+                        <li><a href="#" data-pattern="object-pool">Object Pool Pattern</a></li>
+                    </ul>
+                </div>
+
+                <!-- Structural Patterns -->
+                <div class="pattern-category" id="structural">
+                    <h2>Structural Patterns</h2>
+                    <ul>
+                        <li><a href="#" data-pattern="adapter">Adapter Pattern</a></li>
+                        <li><a href="#" data-pattern="bridge">Bridge Pattern</a></li>
+                        <li><a href="#" data-pattern="composite">Composite Pattern</a></li>
+                        <li><a href="#" data-pattern="decorator">Decorator Pattern</a></li>
+                        <li><a href="#" data-pattern="facade">Facade Pattern</a></li>
+                        <li><a href="#" data-pattern="flyweight">Flyweight Pattern</a></li>
+                        <li><a href="#" data-pattern="proxy">Proxy Pattern</a></li>
+                    </ul>
+                </div>
+
+                <!-- Behavioral Patterns -->
+                <div class="pattern-category" id="behavioral">
+                    <h2>Behavioral Patterns</h2>
+                    <ul>
+                        <li><a href="#" data-pattern="observer">Observer Pattern</a></li>
+                        <li><a href="#" data-pattern="strategy">Strategy Pattern</a></li>
+                        <li><a href="#" data-pattern="command">Command Pattern</a></li>
+                        <li><a href="#" data-pattern="state">State Pattern</a></li>
+                        <li><a href="#" data-pattern="template-method">Template Method Pattern</a></li>
+                        <li><a href="#" data-pattern="chain-of-responsibility">Chain of Responsibility Pattern</a></li>
+                        <li><a href="#" data-pattern="mediator">Mediator Pattern</a></li>
+                        <li><a href="#" data-pattern="memento">Memento Pattern</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pattern-display">
+                <div class="pattern-info">
+                    <h2>Select a Design Pattern</h2>
+                    <p>Click on a pattern from the list to see its implementation and example.</p>
+                </div>
+                <div class="pattern-demo"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created for learning and understanding design patterns in software development</p>
+        <div class="footer-accent"></div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/patterns.js"></script>
+</body>
+</html> 
